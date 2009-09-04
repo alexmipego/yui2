@@ -54,6 +54,13 @@
      * @default 0.6
      */
     [Style(name="areaFillAlpha", type="Number")]
+	
+	/**
+     * If true, the line will be smoothed.
+     *
+     * @default false
+     */
+    [Style(name="lineSmooth", type="Boolean")]
     
 	/**
 	 * Renders data points as a series of connected line segments.
@@ -78,7 +85,8 @@
 			connectDiscontinuousPoints: false,
 			discontinuousDashLength: 10,
 			showAreaFill: false,
-			areaFillAlpha: 0.6
+			areaFillAlpha: 0.6,
+			lineSmooth: false
 		};
 		
 	//--------------------------------------
@@ -252,6 +260,7 @@
 			var connectDiscontinuousPoints:Boolean = this.getStyleValue("connectDiscontinuousPoints") as Boolean;
 			var discontinuousDashLength:Number = this.getStyleValue("discontinuousDashLength") as Number;
 			var showAreaFill:Boolean = this.getStyleValue("showAreaFill") as Boolean;
+			var lineSmooth:Boolean = this.getStyleValue("lineSmooth") as Boolean;
 			
 			this.graphics.clear();
 			this.setPrimaryLineStyle();
@@ -319,7 +328,21 @@
 							xPosition == seriesBounds.x ||
 							xPosition == seriesBounds.x + seriesBounds.width)
 						{
-							this.graphics.lineTo(xPosition, yPosition);
+							if(!lineSmooth)
+								this.graphics.lineTo(xPosition, yPosition);
+							else
+							{
+								var anchor1:Point = new Point(0, 0);
+								if(i>0) {
+									 anchor1.x = data[(i-1) * 2] as Number;
+									 anchor1.y = data[(i-1) * 2 + 1] as Number;
+								}							
+								var anchor2:Point = new Point(xPosition, yPosition);
+								var control1:Point = new Point(anchor1.x + 10, anchor1.y);
+								var control2:Point = new Point(xPosition - 10, yPosition);
+								
+								GraphicsUtil.drawCubicBezier(this.graphics, anchor1, control1, anchor2, control2);
+							}							
 						}
 						else
 						{

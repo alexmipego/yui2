@@ -1,4 +1,4 @@
-package
+﻿package
 {
 	import com.adobe.serialization.json.JSON;
 	import com.yahoo.astra.fl.charts.*;
@@ -767,6 +767,13 @@ package
 								fillAlpha = style.fillAlpha;
 							case "size":
 								UIComponent(series).setStyle("markerSize", style.size);
+								break;
+							case "lineSmooth": //LineSeries only
+								if(!(series is LineSeries))
+								{
+									this.log("The style " + styleName + " is only supported by series of type 'line'.", LoggerCategory.WARN);
+								}
+								UIComponent(series).setStyle("lineSmooth", style.lineSmooth);
 								break;
 							case "lineColor": //LineSeries only
 								if(!(series is LineSeries))

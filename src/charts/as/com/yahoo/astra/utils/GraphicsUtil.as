@@ -1,4 +1,4 @@
-package com.yahoo.astra.utils
+﻿package com.yahoo.astra.utils
 {
 	import flash.display.Graphics;
 	import flash.geom.Point;
@@ -11,6 +11,38 @@ package com.yahoo.astra.utils
 	 */
 	public class GraphicsUtil
 	{
+		/**
+		 * @private
+		 * Draws cubic bezier.
+		 * 
+		 * @param anchor1	start anchor's point
+		 * @param control1	start anchor's control point
+		 * @param anchor2	end anchor's point
+		 * @param control2	end anchor's control point
+		 * @param steps		[optional] number of draw steps. Defaults to 100.
+		*/
+		public static function drawCubicBezier(target:Graphics, anchor1:Point, control1:Point, anchor2:Point, control2:Point, steps:Number = 100):void
+		{
+			// store values where to lineTo
+			var posx:Number;
+			var posy:Number;
+			
+			for (var u:Number = 0; u <= 1; u += 1/100) {
+				posx = Math.pow(u,3)*(anchor2.x+3*(control1.x-control2.x)-anchor1.x)
+					   +3*Math.pow(u,2)*(anchor1.x-2*control1.x+control2.x)
+					   +3*u*(control1.x-anchor1.x)+anchor1.x;
+
+				posy = Math.pow(u,3)*(anchor2.y+3*(control1.y-control2.y)-anchor1.y)
+					   +3*Math.pow(u,2)*(anchor1.y-2*control1.y+control2.y)
+					   +3*u*(control1.y-anchor1.y)+anchor1.y;
+
+				target.lineTo(posx,posy);
+			}
+			 
+			//Let the curve end on the second anchorPoint 
+			target.lineTo(anchor2.x,anchor2.y);
+		}
+		
 		/**
 		 * @private
 		 * Draws a wedge.
