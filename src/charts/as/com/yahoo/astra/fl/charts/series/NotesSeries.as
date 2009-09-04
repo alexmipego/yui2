@@ -12,6 +12,7 @@
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.text.TextField;
 	
 	/**
      * The weight, in pixels, of the line drawn between points in this series.
@@ -78,7 +79,14 @@
 			connectDiscontinuousPoints: false,
 			discontinuousDashLength: 10,
 			showAreaFill: false,
-			areaFillAlpha: 0.6
+			areaFillAlpha: 0.6,
+			markerSize: 10,
+			markerAlpha: 1.0
+		};
+		
+		private static const RENDERER_STYLES:Object = 
+		{
+			fillColor: "lineColor"
 		};
 		
 	//--------------------------------------
@@ -270,11 +278,27 @@
 					var skin:FlagSkin = new FlagSkin();
 					skin.height = 10;
 					skin.width = 20;
+
 					skin.x = xPosition - skin.width/2;
-					skin.y = yPosition - skin.height - 10;
+					skin.y = this.getHighestYForIndex(i) - skin.height - 10;
+//					this.copyStylesToChild(skin, RENDERER_STYLES);  // Not working?
 					this.addChild(skin);
 				}
 			}
+		}
+		
+		/** 
+		  *@Private
+		  */
+		private function getHighestYForIndex(index:int) : int {
+			var cchart:CartesianChart = CartesianChart(this.chart);
+			
+			var max = this.height;
+			var seriesCount:int = cchart.dataProvider.length;
+			for(var i:int = 0; i < seriesCount; i++)
+				max = Math.min(max, cchart.itemToPosition(cchart.dataProvider[i], index).y);
+
+			return max;
 		}
 	}
 }

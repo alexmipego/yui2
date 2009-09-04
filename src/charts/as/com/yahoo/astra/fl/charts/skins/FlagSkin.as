@@ -168,7 +168,7 @@
 			
 			this.graphics.beginFill(this.fillColor, this.fillAlpha);
 			this.graphics.drawRect(xDiff, yDiff, this.width, this.height);
-			this.graphics.endFill();
+			this.graphics.endFill();			
 		}
 		
 	}
