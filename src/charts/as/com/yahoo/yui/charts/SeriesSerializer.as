@@ -1,4 +1,4 @@
-package com.yahoo.yui.charts
+﻿package com.yahoo.yui.charts
 {
 	import com.yahoo.astra.fl.charts.series.*;
 	import com.yahoo.astra.utils.JavaScriptUtil;
@@ -18,6 +18,7 @@ package com.yahoo.yui.charts
 		shortNameToSeriesTypeHash[ChartSerializer.BAR] = BarSeries;
 		shortNameToSeriesTypeHash[ChartSerializer.COLUMN] = ColumnSeries;
 		shortNameToSeriesTypeHash[ChartSerializer.LINE] = LineSeries;
+		shortNameToSeriesTypeHash[ChartSerializer.NOTES] = NotesSeries;
 		shortNameToSeriesTypeHash[ChartSerializer.PIE] = PieSeries;
 		shortNameToSeriesTypeHash[ChartSerializer.STACK_BAR] = StackedBarSeries; 
 		shortNameToSeriesTypeHash[ChartSerializer.STACK_COLUMN] = StackedColumnSeries;
@@ -26,6 +27,7 @@ package com.yahoo.yui.charts
 		seriesTypeToShortNameHash[BarSeries] = ChartSerializer.BAR;
 		seriesTypeToShortNameHash[ColumnSeries] = ChartSerializer.COLUMN;
 		seriesTypeToShortNameHash[LineSeries] = ChartSerializer.LINE;
+		seriesTypeToShortNameHash[NotesSeries] = ChartSerializer.NOTES;
 		seriesTypeToShortNameHash[PieSeries] = ChartSerializer.PIE;
 		seriesTypeToShortNameHash[StackedBarSeries] = ChartSerializer.STACK_BAR;
 		seriesTypeToShortNameHash[StackedColumnSeries] = ChartSerializer.STACK_COLUMN;

@@ -1,4 +1,4 @@
-package
+﻿package
 {
 	import com.adobe.serialization.json.JSON;
 	import com.yahoo.astra.fl.charts.*;
@@ -690,6 +690,8 @@ package
 				{
 					defaultSkin = [defaultSkin];
 				}
+				else if(series is NotesSeries)
+					defaultSkin = Shape;
 			
 				//initialize styles with defaults
 				var color:Object = defaultColors[i % defaultColors.length];

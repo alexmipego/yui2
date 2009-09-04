@@ -1,4 +1,4 @@
-package com.yahoo.astra.fl.charts.series
+﻿package com.yahoo.astra.fl.charts.series
 {
 	import com.yahoo.astra.fl.charts.events.ChartEvent;
 	

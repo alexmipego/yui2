@@ -1,4 +1,4 @@
-package com.yahoo.yui.charts
+﻿package com.yahoo.yui.charts
 {
 	import com.yahoo.astra.fl.charts.*;
 	
@@ -15,6 +15,7 @@ package com.yahoo.yui.charts
 		public static const BAR:String = "bar";
 		public static const COLUMN:String = "column";
 		public static const LINE:String = "line";
+		public static const NOTES:String = "notes";
 		public static const PIE:String = "pie";
 		public static const STACK_BAR:String = "stackbar";
 		public static const STACK_COLUMN:String = "stackcolumn";
@@ -23,6 +24,7 @@ package com.yahoo.yui.charts
 		shortNameToType[BAR] = BarChart;
 		shortNameToType[ChartSerializer.COLUMN] = ColumnChart;
 		shortNameToType[LINE] = LineChart;
+		shortNameToType[NOTES] = LineChart;
 		shortNameToType[PIE] = PieChart;
 		shortNameToType[STACK_BAR] = StackedBarChart; 
 		shortNameToType[STACK_COLUMN] = StackedColumnChart;

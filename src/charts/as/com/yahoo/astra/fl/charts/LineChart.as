@@ -1,8 +1,9 @@
-package com.yahoo.astra.fl.charts
+﻿package com.yahoo.astra.fl.charts
 {
 	import fl.core.UIComponent;
 	import com.yahoo.astra.fl.charts.series.ISeries;
 	import com.yahoo.astra.fl.charts.series.LineSeries;
+	import com.yahoo.astra.fl.charts.series.NotesSeries;
 	import com.yahoo.astra.fl.charts.skins.*;
 	
 	//--------------------------------------
