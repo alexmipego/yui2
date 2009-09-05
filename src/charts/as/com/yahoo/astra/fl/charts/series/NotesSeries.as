@@ -14,47 +14,30 @@
 	import flash.geom.Rectangle;
 	
 	/**
-     * The weight, in pixels, of the line drawn between points in this series.
-     *
-     * @default 3
+     * The color for the note.
      */
-    [Style(name="lineColor", type="Number")]
+    [Style(name="color", type="uint")]
+
+	/**
+     * The alpha for the note.
+     */
+    [Style(name="alpha", type="Number")]
+
+    /**
+     * The color of the border.
+     */
+    [Style(name="borderColor", type="uint")]
+
+	/**
+     * Alpha for the border.
+     */
+    [Style(name="borderAlpha", type="Number")]
 	
 	/**
-     * If true, lines are drawn between the markers. If false, only the markers are drawn.
-     *
-     * @default true
+     * Alpha for the border.
      */
-    [Style(name="connectPoints", type="Boolean")]
-	
-	/**
-     * If true, draws a dashed line between discontinuous points.
-     *
-     * @default false
-     */
-    [Style(name="connectDiscontinuousPoints", type="Boolean")]
-	
-	/**
-     * The length of dashes in a discontinuous line. 
-     *
-     * @default 10
-     */
-    [Style(name="discontinuousDashLength", type="Number")]
-	
-	/**
-     * If true, the series will include a fill under the line, extending to the axis.
-     *
-     * @default false
-     */
-    [Style(name="showAreaFill", type="Boolean")]
-	
-	/**
-     * The alpha value of the area fill.
-     *
-     * @default 0.6
-     */
-    [Style(name="areaFillAlpha", type="Number")]
-    
+    [Style(name="textColor", type="uint")]
+
 	/**
 	 * Renders data points as a series of connected line segments.
 	 * 
@@ -73,15 +56,17 @@
 		private static var defaultStyles:Object =
 		{
 			markerSkin: null,
-			lineWeight: 3,
-			connectPoints: true,
-			connectDiscontinuousPoints: false,
-			discontinuousDashLength: 10,
-			showAreaFill: false,
-			areaFillAlpha: 0.6,
-			markerSize: 10,
-			markerAlpha: 1.0
+			color: 0x000000,
+			borderColor: 0xFF0000,
+			alpha: 1,
+			borderAlpha: 1,
+			textColor: 0xFF0000
 		};
+		
+		/**
+		 * @private
+		 */
+		private var skinjobs:Array = [];
 		
 	//--------------------------------------
 	//  Class Methods
@@ -252,6 +237,8 @@
 
 			this.graphics.clear();
 
+			this.prepareSkinjobs();
+			
 			//used to determine if the data must be drawn
 			var seriesBounds:Rectangle = new Rectangle(0, 0, this.width, this.height);
 			var itemCount:int = this.length;
@@ -269,24 +256,50 @@
 					marker.y = yPosition - marker.height / 2;
 					
 					// TODO: intercept with seriesBounds to know if it needs to be displayed.					
-					var skin:FlagSkin = new FlagSkin();
+					var skin:FlagSkin = this.skinjobs[i] as FlagSkin;
 					skin.height = 20;
 					skin.width = 30;
 
 					skin.x = xPosition - skin.width/2;
 					skin.y = this.getHighestYForIndex(i) - skin.height - 10;
-//					this.copyStylesToChild(skin, RENDERER_STYLES);  // Not working?
-					skin.fillColor = this.getStyleValue("lineColor") as uint;
+					skin.fillColor = this.getStyleValue("borderColor") as uint;
+					//skin.fillAlpha = this.getStyleValue("alpha") as Number;
 					skin.borderColor = this.getStyleValue("borderColor") as uint;
-					skin.text = "Hi!";
-					
-					this.addChild(skin);
+					skin.borderAlpha = this.getStyleValue("borderAlpha") as Number;
+					skin.text = this.length + "-" + this.skinjobs.length;				
 				}
 			}
 		}
 		
+		/**
+		  *@private
+		  */
+		 private function prepareSkinjobs() : void {
+			 var itemsNeeded:int = this.length;
+			 var skinJobCount = this.skinjobs.length;
+			 
+			 if(itemsNeeded > skinJobCount) {
+				for(var i:int = 0; i<(itemsNeeded - skinJobCount); i++) {
+					var skinjob:FlagSkin = new FlagSkin();
+					
+					// event handlers will go here
+					
+					this.skinjobs.push(skinjob);
+					this.addChild(DisplayObject(skinjob));
+				}
+			 } else if(skinJobCount > itemsNeeded) {
+				for(var i:int = 0; i<(skinJobCount - itemsNeeded); i++) {
+					var skinjob:FlagSkin = this.skinjobs.pop() as FlagSkin;
+					
+					// and remove event handlers
+					
+					this.removeChild(DisplayObject(skinjob));
+				}
+			 }
+		 }
+		
 		/** 
-		  *@Private
+		  *@private
 		  */
 		private function getHighestYForIndex(index:int) : int {
 			var cchart:CartesianChart = CartesianChart(this.chart);

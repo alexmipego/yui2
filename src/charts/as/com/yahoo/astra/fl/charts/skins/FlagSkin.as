@@ -62,7 +62,7 @@
 		 * @private 
 		 * Storage for outline color
 		 */
-		private var _borderColor:uint;
+		private var _borderColor:uint = 0x000000;
 		
 		/**
 		 * @copy com.yahoo.astra.fl.charts.skins.IProgrammaticSkin#borderColor
@@ -175,6 +175,8 @@
 			this.graphics.endFill();
 			
 			var tv:TextField = new TextField();
+			tv.height = this.height;
+			tv.width = this.width;
 			tv.text = this.text;
 			this.addChild(tv);
 		}
