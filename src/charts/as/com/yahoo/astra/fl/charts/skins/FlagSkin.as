@@ -1,6 +1,7 @@
 ﻿package com.yahoo.astra.fl.charts.skins
 {
 	import fl.core.UIComponent;
+	import flash.text.TextField;
 
 	public class FlagSkin extends UIComponent implements IProgrammaticSkin, INoteSkin
 	{
@@ -168,7 +169,14 @@
 			
 			this.graphics.beginFill(this.fillColor, this.fillAlpha);
 			this.graphics.drawRect(xDiff, yDiff, this.width, this.height);
-			this.graphics.endFill();			
+			this.graphics.moveTo(this.width / 2 - 5, this.height);
+			this.graphics.lineTo(this.width / 2, this.height + 5);
+			this.graphics.lineTo(this.width / 2 + 5, this.height);
+			this.graphics.endFill();
+			
+			var tv:TextField = new TextField();
+			tv.text = this.text;
+			this.addChild(tv);
 		}
 		
 	}

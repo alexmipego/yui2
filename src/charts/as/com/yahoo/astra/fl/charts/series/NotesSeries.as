@@ -12,14 +12,13 @@
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.text.TextField;
 	
 	/**
      * The weight, in pixels, of the line drawn between points in this series.
      *
      * @default 3
      */
-    [Style(name="lineWeight", type="Number")]
+    [Style(name="lineColor", type="Number")]
 	
 	/**
      * If true, lines are drawn between the markers. If false, only the markers are drawn.
@@ -82,11 +81,6 @@
 			areaFillAlpha: 0.6,
 			markerSize: 10,
 			markerAlpha: 1.0
-		};
-		
-		private static const RENDERER_STYLES:Object = 
-		{
-			fillColor: "lineColor"
 		};
 		
 	//--------------------------------------
@@ -276,12 +270,16 @@
 					
 					// TODO: intercept with seriesBounds to know if it needs to be displayed.					
 					var skin:FlagSkin = new FlagSkin();
-					skin.height = 10;
-					skin.width = 20;
+					skin.height = 20;
+					skin.width = 30;
 
 					skin.x = xPosition - skin.width/2;
 					skin.y = this.getHighestYForIndex(i) - skin.height - 10;
 //					this.copyStylesToChild(skin, RENDERER_STYLES);  // Not working?
+					skin.fillColor = this.getStyleValue("lineColor") as uint;
+					skin.borderColor = this.getStyleValue("borderColor") as uint;
+					skin.text = "Hi!";
+					
 					this.addChild(skin);
 				}
 			}
