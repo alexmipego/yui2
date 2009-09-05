@@ -16,12 +16,12 @@
 	/**
      * The color for the note.
      */
-    [Style(name="color", type="uint")]
+    [Style(name="fillColor", type="uint")]
 
 	/**
      * The alpha for the note.
      */
-    [Style(name="alpha", type="Number")]
+    [Style(name="fillAlpha", type="Number")]
 
     /**
      * The color of the border.
@@ -56,9 +56,9 @@
 		private static var defaultStyles:Object =
 		{
 			markerSkin: null,
-			color: 0x000000,
+			fillColor: 0x000000,
 			borderColor: 0xFF0000,
-			alpha: 1,
+			fillAlpha: 1,
 			borderAlpha: 1,
 			textColor: 0xFF0000
 		};
@@ -262,8 +262,8 @@
 
 					skin.x = xPosition - skin.width/2;
 					skin.y = this.getHighestYForIndex(i) - skin.height - 10;
-					skin.fillColor = this.getStyleValue("borderColor") as uint;
-					//skin.fillAlpha = this.getStyleValue("alpha") as Number;
+					skin.fillColor = this.getStyleValue("fillColor") as uint;
+					skin.fillAlpha = this.getStyleValue("fillAlpha") as Number;
 					skin.borderColor = this.getStyleValue("borderColor") as uint;
 					skin.borderAlpha = this.getStyleValue("borderAlpha") as Number;
 					skin.text = this.length + "-" + this.skinjobs.length;				
