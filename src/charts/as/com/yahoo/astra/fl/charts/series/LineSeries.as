@@ -338,8 +338,8 @@
 									 anchor1.y = data[(i-1) * 2 + 1] as Number;
 								}							
 								var anchor2:Point = new Point(xPosition, yPosition);
-								var control1:Point = new Point(anchor1.x + 10, anchor1.y);
-								var control2:Point = new Point(xPosition - 10, yPosition);
+								var control1:Point = new Point(anchor1.x + 20, anchor1.y);
+								var control2:Point = new Point(xPosition - 20, yPosition);
 								
 								GraphicsUtil.drawCubicBezier(this.graphics, anchor1, control1, anchor2, control2);
 							}							
