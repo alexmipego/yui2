@@ -1,9 +1,10 @@
 ﻿package com.yahoo.astra.fl.charts.skins
 {
+	import com.yahoo.astra.fl.charts.series.SeriesItemRenderer;
 	import fl.core.UIComponent;
 	import flash.text.TextField;
 
-	public class FlagSkin extends UIComponent implements IProgrammaticSkin, INoteSkin
+	public class FlagSkin extends SeriesItemRenderer implements IProgrammaticSkin, INoteSkin
 	{
 		
 	//--------------------------------------

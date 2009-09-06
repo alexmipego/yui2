@@ -10,6 +10,8 @@
 	import fl.core.UIComponent;
 	
 	import flash.display.DisplayObject;
+	import flash.display.InteractiveObject;
+	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	
@@ -266,11 +268,15 @@
 					skin.fillAlpha = this.getStyleValue("fillAlpha") as Number;
 					skin.borderColor = this.getStyleValue("borderColor") as uint;
 					skin.borderAlpha = this.getStyleValue("borderAlpha") as Number;
-					skin.text = this.length + "-" + this.skinjobs.length;				
+					skin.text = "a:" + yPosition;
 				}
 			}
 		}
 		
+		public override function itemRendererToIndex(renderer:ISeriesItemRenderer):int
+		{
+			return this.skinjobs.indexOf(renderer);
+		}
 		/**
 		  *@private
 		  */
@@ -282,7 +288,14 @@
 				for(var i:int = 0; i<(itemsNeeded - skinJobCount); i++) {
 					var skinjob:FlagSkin = new FlagSkin();
 					
-					// event handlers will go here
+					InteractiveObject(skinjob).doubleClickEnabled = true;
+					skinjob.addEventListener(MouseEvent.ROLL_OVER, markerRollOverHandler, false, 0, true);
+					skinjob.addEventListener(MouseEvent.ROLL_OUT, markerRollOutHandler, false, 0, true);
+					skinjob.addEventListener(MouseEvent.CLICK, markerClickHandler, false, 0, true);
+					skinjob.addEventListener(MouseEvent.DOUBLE_CLICK, markerDoubleClickHandler, false, 0, true);
+					
+					skinjob.series = this;
+					skinjob.data = 1;
 					
 					this.skinjobs.push(skinjob);
 					this.addChild(DisplayObject(skinjob));
