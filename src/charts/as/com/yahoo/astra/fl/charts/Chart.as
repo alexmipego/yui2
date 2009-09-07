@@ -21,6 +21,7 @@ package com.yahoo.astra.fl.charts
 	import flash.text.TextFormat;
 	import flash.text.TextFormatAlign;
 	import flash.utils.getDefinitionByName;
+	import flash.events.ErrorEvent;
 		
 	//--------------------------------------
 	//  Styles
@@ -177,9 +178,9 @@ package com.yahoo.astra.fl.charts
 				0xc6c6c6, 0xc3eafb, 0xfcffad, 0xcfff83, 0x444444, 0x4d95dd,
 				0xb8ebff, 0x60558f, 0x737d7e, 0xa64d9a, 0x8e9a9b, 0x803e77
 			],
-			seriesBorderColors:null,
-			seriesFillColors:null,
-			seriesLineColors:null,
+			seriesBorderColors:[],
+			seriesFillColors:[],
+			seriesLineColors:[],
 			seriesBorderAlphas:[1],
 			seriesFillAlphas:[1],
 			seriesLineAlphas:[1],
@@ -289,7 +290,7 @@ package com.yahoo.astra.fl.charts
 		
 		[Inspectable(type=Array)]
 		/**
-		 * @inheritDoc
+		 * @copy com.yahoo.astra.fl.charts.IChart#dataProvider
 		 */
 		public function get dataProvider():Object
 		{
@@ -411,6 +412,29 @@ package com.yahoo.astra.fl.charts
 		{
 			this._legend = value;
 			this.invalidate();
+		}
+		
+		/**
+		 * @private 
+		 * Storage for legendLabelFunction
+		 */
+		private var _legendLabelFunction:Function;
+		
+		/**
+		 * If defined, the chart will call the input function to determine the text displayed in 
+		 * in the chart's legend.
+		 */
+		public function get legendLabelFunction():Function
+		{
+			return this._legendLabelFunction;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set legendLabelFunction(value:Function):void
+		{
+			this._legendLabelFunction = value;
 		}
 	
 	//--------------------------------------
@@ -660,8 +684,33 @@ package com.yahoo.astra.fl.charts
 				var series:ISeries = ISeries(this.series[i]);
 				if(series is ILegendItemSeries)
 				{
+					if(!(series as ILegendItemSeries).showInLegend) continue;
 					var itemData:LegendItemData = ILegendItemSeries(series).createLegendItemData();
 					itemData.label = itemData.label ? itemData.label : i.toString();
+					if(series.legendLabelFunction != null && series.legendLabelFunction is Function)
+					{
+						try
+						{
+							itemData.label = series.legendLabelFunction(itemData.label);
+						}
+						catch(e:Error)
+						{
+							var message:String = "There is an error in the series level legendLabelFunction.";
+							this.dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, message));
+						}
+					}
+					else if(this.legendLabelFunction != null && this.legendLabelFunction is Function)
+					{
+						try
+						{
+							message = "There is an error in the legendLabelFunction.";
+							itemData.label = this.legendLabelFunction(itemData.label);
+						}
+						catch(e:Error)
+						{
+							this.dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, message));
+						}
+					}
 					legendData.push(itemData);
 				}
 				else if(series is ICategorySeries)
@@ -694,18 +743,7 @@ package com.yahoo.astra.fl.charts
 				var styleValues:Array = this.getStyleValue(styleMap[n]) as Array;
 				
 				//if it doesn't exist, ignore it and go with the defaults for this series
-				if(styleValues == null || styleValues.length == 0)
-				{
-					if(n == "borderColor" || n == "fillColor" || n == "lineColor")
-					{
-						styleValues = this.getStyleValue(styleMap["color"]) as Array;
-					}
-					else
-					{
-						continue;
-					}
-				}
-				
+				if(styleValues == null || styleValues.length == 0) continue;
 				childComponent.setStyle(n, styleValues[index % styleValues.length])
 			}
 		} 
@@ -733,9 +771,29 @@ package com.yahoo.astra.fl.charts
 			var index:int = series.itemRendererToIndex(this._lastDataTipRenderer);
 			
 			var dataTipText:String = "";
-			if(this.dataTipFunction != null)
+			if(series.dataTipFunction != null)
 			{
-				dataTipText = this.dataTipFunction(item, index, series);
+				try
+				{
+					dataTipText = series.dataTipFunction(item, index, series);
+				}
+				catch(e:Error)
+				{
+					var message:String = "There is an error in your series level dataTipFunction";
+					this.dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, message));
+				}
+			}
+			else if(this.dataTipFunction != null)
+			{
+				try
+				{
+					dataTipText = this.dataTipFunction(item, index, series);
+				}
+				catch(e:Error)
+				{
+					message = "There is an error in your dataTipFunction";
+					this.dispatchEvent(new ErrorEvent(ErrorEvent.ERROR, false, false, message));
+				}
 			}
 			
 			var dataTipRenderer:IDataTipRenderer = this.dataTip as IDataTipRenderer;

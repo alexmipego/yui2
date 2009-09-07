@@ -100,6 +100,8 @@
             
             index = (index === undefined) ? tabs.length : index;
             
+            tabs.splice(index, 0, tab);
+
             if ( before ) {
                 tabParent.insertBefore(tabElement, before.get(ELEMENT));
             } else {
@@ -114,22 +116,20 @@
                 tab.set('contentVisible', false, true); /* hide if not active */
             } else {
                 this.set(ACTIVE_TAB, tab, true);
-                
+                this.set('activeIndex', index, true);
             }
 
             this._initTabEvents(tab);
-            tabs.splice(index, 0, tab);
         },
 
         _initTabEvents: function(tab) {
             tab.addListener( tab.get('activationEvent'), tab._onActivate, this, tab);
-            
-            tab.addListener('activationEventChange', function(e) {
-                if (e.prevValue != e.newValue) {
-                    tab.removeListener(e.prevValue, tab._onActivate);
-                    tab.addListener(e.newValue, tab._onActivate, this, tab);
-                }
-            });
+            tab.addListener( tab.get('activationEventChange'), tab._onActivationEventChange, this, tab);
+        },
+
+        _removeTabEvents: function(tab) {
+            tab.removeListener(tab.get('activationEvent'), tab._onActivate, this, tab);
+            tab.removeListener('activationEventChange', tab._onActivationEventChange, this, tab);
         },
 
         /**
@@ -215,6 +215,7 @@
                 }
             }
             
+            this._removeTabEvents(tab);
             this._tabParent.removeChild( tab.get(ELEMENT) );
             this._contentParent.removeChild( tab.get(CONTENT_EL) );
             this._configs.tabs.value.splice(index, 1);
@@ -322,8 +323,6 @@
              */
             this.setAttributeConfig(ACTIVE_INDEX, {
                 value: attr.activeIndex,
-                method: function(value) {
-                },
                 validator: function(value) {
                     var ret = true;
                     if (value && this.getTab(value).get('disabled')) { // cannot activate if disabled
@@ -533,7 +532,7 @@
      * @extends YAHOO.util.Element
      * @constructor
      * @param element {HTMLElement | String} (optional) The html element that 
-     * represents the TabView. An element will be created if none provided.
+     * represents the Tab. An element will be created if none provided.
      * @param {Object} properties A key map of initial properties
      */
     Tab = function(el, attr) {
@@ -579,9 +578,9 @@
         
         /**
          * The class name applied to active tabs.
-         * @property ACTIVE_CLASSNAME
+         * @property HIDDEN_CLASSNAME
          * @type String
-         * @default "selected"
+         * @default "yui-hidden"
          */
         HIDDEN_CLASSNAME: 'yui-hidden',
         
@@ -638,7 +637,7 @@
         },
         
         /**
-         * setAttributeConfigs TabView specific properties.
+         * setAttributeConfigs Tab specific properties.
          * @method initAttributes
          * @param {Object} attr Hash of initial attributes
          */
@@ -710,7 +709,7 @@
                             return false; // already set
                         }
                         if (!this.get('selected')) {
-                            Dom.addClass(value, 'yui-hidden');
+                            Dom.addClass(value, this.HIDDEN_CLASSNAME);
                         }
                         current.parentNode.replaceChild(value, current);
                         this.set(CONTENT, value.innerHTML);
@@ -957,13 +956,21 @@
         _onActivate: function(e, tabview) {
             var tab = this,
                 silent = false;
-            
 
             Y.Event.preventDefault(e);
             if (tab === tabview.get(ACTIVE_TAB)) {
                 silent = true; // dont fire activeTabChange if already active
             }
             tabview.set(ACTIVE_TAB, tab, silent);
+        },
+
+        _onActivationEventChange: function(e) {
+            var tab = this;
+
+            if (e.prevValue != e.newValue) {
+                tab.removeListener(e.prevValue, tab._onActivate);
+                tab.addListener(e.newValue, tab._onActivate, this, tab);
+            }
         }
     });
     

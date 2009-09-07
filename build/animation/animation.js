@@ -87,10 +87,10 @@ Anim.prototype = {
             val = (val > 0) ? val : 0;
         }
 
-        if ('style' in el) {
-            Y.Dom.setStyle(el, attr, val + unit);
-        } else if (attr in el) {
+        if (attr in el && !('style' in el && attr in el.style)) {
             el[attr] = val;
+        } else {
+            Y.Dom.setStyle(el, attr, val + unit);
         }
     },                        
     
@@ -536,7 +536,7 @@ YAHOO.util.AnimMgr = new function() {
      */
     this.unRegister = function(tween, index) {
         index = index || getIndex(tween);
-        if (!tween.isAnimated() || index == -1) {
+        if (!tween.isAnimated() || index === -1) {
             return false;
         }
         
@@ -609,7 +609,7 @@ YAHOO.util.AnimMgr = new function() {
     
     var getIndex = function(anim) {
         for (var i = 0, len = queue.length; i < len; ++i) {
-            if (queue[i] == anim) {
+            if (queue[i] === anim) {
                 return i; // note return;
             }
         }
@@ -642,6 +642,8 @@ YAHOO.util.AnimMgr = new function() {
             tween.currentFrame += tweak;      
         }
     };
+    this._queue = queue;
+    this._getIndex = getIndex;
 };
 /**
  * Used to calculate Bezier splines for any number of control points.
