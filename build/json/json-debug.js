@@ -529,4 +529,5 @@ YAHOO.lang.JSON = {
 YAHOO.lang.JSON.isValid = YAHOO.lang.JSON.isSafe;
 
 })();
+
 YAHOO.register("json", YAHOO.lang.JSON, {version: "@VERSION@", build: "@BUILD@"});

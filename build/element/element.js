@@ -223,6 +223,7 @@ YAHOO.util.Attribute.prototype = {
     }
 };
 
+
 (function() {
     var Lang = YAHOO.util.Lang;
 
@@ -482,6 +483,7 @@ YAHOO.util.Attribute.prototype = {
     
     YAHOO.augment(YAHOO.util.AttributeProvider, YAHOO.util.EventProvider);
 })();
+
 
 (function() {
 // internal shorthand
@@ -1080,5 +1082,6 @@ Element.prototype = {
 YAHOO.augment(Element, AttributeProvider);
 YAHOO.util.Element = Element;
 })();
+
 
 YAHOO.register("element", YAHOO.util.Element, {version: "@VERSION@", build: "@BUILD@"});

@@ -1009,6 +1009,7 @@ YAHOO.widget.Chart.removeProxyFunction = function(funcName)
  * @default "assets/charts.swf"
  */
 YAHOO.widget.Chart.SWFURL = "assets/charts.swf";
+
 /**
  * PieChart class for the YUI Charts widget.
  *
@@ -1106,6 +1107,7 @@ YAHOO.lang.extend(YAHOO.widget.PieChart, YAHOO.widget.Chart,
 		this._swf.setCategoryField(value);
 	}
 });
+
 /**
  * CartesianChart class for the YUI Charts widget.
  *
@@ -1421,6 +1423,7 @@ YAHOO.lang.extend(YAHOO.widget.CartesianChart, YAHOO.widget.Chart,
 		if(this._swf && this._swf.setSeriesStylesByIndex) this._swf.setSeriesStylesByIndex(index, style);
 	}
 });
+
 /**
  * LineChart class for the YUI Charts widget.
  *
@@ -1510,6 +1513,7 @@ YAHOO.widget.StackedBarChart = function(containerId, dataSource, attributes)
 };
 
 YAHOO.lang.extend(YAHOO.widget.StackedBarChart, YAHOO.widget.CartesianChart);
+
 /**
  * Defines a CartesianChart's vertical or horizontal axis.
  *
@@ -1564,6 +1568,7 @@ YAHOO.widget.Axis.prototype =
 	 */
 	title: null 
 };
+
 /**
  * A type of axis whose units are measured in numeric values.
  *
@@ -1692,6 +1697,7 @@ YAHOO.lang.extend(YAHOO.widget.NumericAxis, YAHOO.widget.Axis,
 	 */
 	adjustMinimumByMajorUnit:true
 });
+
 /**
  * A type of axis whose units are measured in time-based values.
  *
@@ -1784,6 +1790,7 @@ YAHOO.lang.extend(YAHOO.widget.TimeAxis, YAHOO.widget.Axis,
 	 */
 	calculateByLabelSize: true	
 });
+
 /**
  * A type of axis that displays items in categories.
  *
@@ -1818,6 +1825,7 @@ YAHOO.lang.extend(YAHOO.widget.CategoryAxis, YAHOO.widget.Axis,
 	 */
 	calculateCategoryCount: false 
 });
+
  /**
  * Functionality common to most series. Generally, a <code>Series</code> 
  * object shouldn't be instantiated directly. Instead, a subclass with a 
@@ -2033,4 +2041,5 @@ YAHOO.lang.extend(YAHOO.widget.StackedColumnSeries, YAHOO.widget.CartesianSeries
 {
 	type: "stackcolumn"
 });
+
 YAHOO.register("charts", YAHOO.widget.Chart, {version: "@VERSION@", build: "@BUILD@"});

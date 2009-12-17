@@ -277,4 +277,5 @@ YAHOO.extend(YAHOO.widget.SWF, YAHOO.util.Element, {
 
 	
 })();
+
 YAHOO.register("swf", YAHOO.widget.SWF, {version: "@VERSION@", build: "@BUILD@"});
