@@ -223,6 +223,19 @@ YAHOO.extend(YAHOO.widget.Chart, YAHOO.util.AttributeProvider,
 	},
 	
 	/**
+	 * Gets the absolute position of a point on a Cartesian chart.
+	 *
+	 * @method getItemPosition
+	 * @param series {Number} Index of the series.
+	 * @param index {Number} Index of the point.
+	 * @return {Object} Object containing X and Y.
+	 */
+	getItemPosition: function(series, index)
+	{
+		return this._swf.getItemPosition(series, index);
+	},
+	
+	/**
 	 * Sets a single style value on the Chart instance.
 	 *
 	 * @method setStyle

@@ -585,7 +585,7 @@
 		}
 		
 		/**
-		 * Determines whether the viewport is constrained
+		 * Gets the absolute position for an item in a cartesian chart
 		 */
 		public function getItemPosition(series:Number, i:Number):Point
 		{
