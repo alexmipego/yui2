@@ -1,4 +1,4 @@
-package com.yahoo.astra.fl.charts
+﻿package com.yahoo.astra.fl.charts
 {
 	import com.yahoo.astra.fl.charts.axes.AxisOrientation;
 	import com.yahoo.astra.fl.charts.axes.AxisLabelData;
@@ -33,6 +33,7 @@ package com.yahoo.astra.fl.charts
 	import flash.text.TextFormatAlign;
 	import flash.text.TextFieldAutoSize;
 	import flash.utils.Dictionary;
+	import flash.external.ExternalInterface;
 	
 	//--------------------------------------
 	//  Styles
@@ -1513,7 +1514,8 @@ package com.yahoo.astra.fl.charts
 			
 			var verticalValue:Object = this.itemToAxisValue(series, itemIndex, vAxis);
 			var yPosition:Number = vAxis.valueToLocal(verticalValue);
-			
+			ExternalInterface.call("console.debug", xPosition, yPosition, this.x, this._contentBounds.y, hAxis.height, vAxis.width,
+								  (this as UIComponent).localToGlobal(new Point(xPosition, yPosition)));
 			return new Point(xPosition, yPosition);
 		}
 		
