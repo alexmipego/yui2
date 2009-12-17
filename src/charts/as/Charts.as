@@ -1,4 +1,4 @@
-package
+﻿package
 {
 	import com.adobe.serialization.json.JSON;
 	import com.yahoo.astra.fl.charts.*;
@@ -20,6 +20,7 @@ package
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	import flash.events.ErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.external.ExternalInterface;
@@ -584,6 +585,21 @@ package
 		}
 		
 		/**
+		 * Determines whether the viewport is constrained
+		 */
+		public function getItemPosition(series:Number, i:Number):Point
+		{
+			if(this.chart is CartesianChart) {
+				var c = (this.chart as CartesianChart);
+				var s = this.chart.indexToSeries(series);
+				var p = c.itemToPosition(s, i);
+
+				return new Point(c.contentBounds.x + p.x + c.x, c.contentBounds.y + p.y + c.y);
+			}
+			return null;
+		}
+		
+		/**
 		 * Accepts a JSON-encoded set of styles for the chart itself.
 		 * Flash Player versions below 9.0.60 don't encode ExternalInterface
 		 * calls correctly!
@@ -1009,6 +1025,7 @@ package
 				ExternalInterface.addCallback("setVerticalAxis", setVerticalAxis);
 				ExternalInterface.addCallback("setConstrainViewport", setConstrainViewport);
 				ExternalInterface.addCallback("setSeriesStylesByIndex", setSeriesStylesByIndex);
+				ExternalInterface.addCallback("getItemPosition", getItemPosition);
 				
 				//PieChart
 				ExternalInterface.addCallback("getDataField", getDataField);
