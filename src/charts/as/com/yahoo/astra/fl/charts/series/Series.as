@@ -1,10 +1,10 @@
-package com.yahoo.astra.fl.charts.series
+﻿package com.yahoo.astra.fl.charts.series
 {
 	import com.yahoo.astra.fl.charts.events.ChartEvent;
 	
 	import fl.core.InvalidationType;
 	import fl.core.UIComponent;
-	import fl.transitions.easing.Strong;
+	//import fl.transitions.easing.Strong;
 	
 	import flash.display.DisplayObject;
 	import flash.display.InteractiveObject;
@@ -99,7 +99,7 @@ package com.yahoo.astra.fl.charts.series
 			fillAlpha: 1.0,
 			borderAlpha: 1.0,
 			animationEnabled: true,
-			animationEasingFunction: fl.transitions.easing.Strong.easeOut,
+			animationEasingFunction: null,// fl.transitions.easing.Strong.easeOut,
 			animationDuration: 500,
 			borderColor: null,
 			color: 0x00b8bf
