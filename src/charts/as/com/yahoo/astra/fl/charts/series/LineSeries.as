@@ -1,4 +1,4 @@
-package com.yahoo.astra.fl.charts.series
+﻿package com.yahoo.astra.fl.charts.series
 {
 	import com.yahoo.astra.animation.Animation;
 	import com.yahoo.astra.animation.AnimationEvent;
@@ -232,6 +232,8 @@ package com.yahoo.astra.fl.charts.series
 		private function tweenUpdateHandler(event:AnimationEvent):void
 		{
 			this.drawMarkers(event.parameters as Array);
+			if(Chart(this.chart).animStepFunction != null)
+				Chart(this.chart).animStepFunction(ISeries(this), event.type == AnimationEvent.COMPLETE);
 		}
 		
 		/**

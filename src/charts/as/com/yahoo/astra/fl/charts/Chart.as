@@ -1,4 +1,4 @@
-package com.yahoo.astra.fl.charts
+﻿package com.yahoo.astra.fl.charts
 {
 	import com.yahoo.astra.fl.charts.events.ChartEvent;
 	import com.yahoo.astra.fl.charts.legend.ILegend;
@@ -389,6 +389,32 @@ package com.yahoo.astra.fl.charts
 		public function set dataTipFunction(value:Function):void
 		{
 			this._dataTipFunction = value;
+		}
+		
+		/**
+		 * @private
+		 * Storage for the animStepFunction property.
+		 */
+		private var _animStepFunction:Function;
+		
+		/**
+		 * If defined, the chart will call the input function to determine the
+		 * text displayed in the chart's data tip. The function uses the following
+		 * signature:
+		 * 
+		 * <p><code>function dataTipFunction(item:Object, index:int, series:ISeries):String</code></p>
+		 */
+		public function get animStepFunction():Function
+		{
+			return this._animStepFunction;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set animStepFunction(value:Function):void
+		{
+			this._animStepFunction = value;
 		}
 	
 		/**

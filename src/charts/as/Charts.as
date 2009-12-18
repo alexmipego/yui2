@@ -27,7 +27,6 @@
 	import flash.text.TextFormat;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
-	
 	import flash.system.Capabilities;
 
 	[SWF(backgroundColor=0xffffff)]
@@ -600,6 +599,20 @@
 		}
 		
 		/**
+		 * Sets the JavaScript function to call when a step in animating a series is complete.
+		 */
+		public function setAnimStepFunction(value:String):void
+		{
+			var delegate:Object = {animStepFunction: JavaScriptUtil.createCallbackFunction(value).callback};
+			delegate.callback = function(series:ISeries, done:Boolean):void
+			{
+				delegate.animStepFunction(SeriesSerializer.writeSeries(series), done);
+			}
+			
+			this.chart.animStepFunction = delegate.callback;
+		}
+		
+		/**
 		 * Accepts a JSON-encoded set of styles for the chart itself.
 		 * Flash Player versions below 9.0.60 don't encode ExternalInterface
 		 * calls correctly!
@@ -1026,6 +1039,7 @@
 				ExternalInterface.addCallback("setConstrainViewport", setConstrainViewport);
 				ExternalInterface.addCallback("setSeriesStylesByIndex", setSeriesStylesByIndex);
 				ExternalInterface.addCallback("getItemPosition", getItemPosition);
+				ExternalInterface.addCallback("setAnimStepFunction", setAnimStepFunction);
 				
 				//PieChart
 				ExternalInterface.addCallback("getDataField", getDataField);

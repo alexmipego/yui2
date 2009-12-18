@@ -194,6 +194,15 @@ YAHOO.extend(YAHOO.widget.Chart, YAHOO.util.AttributeProvider,
 	_dataTipFunction: null,
 	
 	/**
+	 * Stores a reference to the animStepFunction created by
+	 * YAHOO.widget.Chart.createProxyFunction()
+	 * @property _animStepFunction
+	 * @type String
+	 * @private
+	 */
+	_animStepFunction: null,
+	
+	/**
 	 * Stores a reference to the legendLabelFunction created by
 	 * YAHOO.widget.Chart.createProxyFunction()
 	 * @property _legendLabelFunction
@@ -297,6 +306,11 @@ YAHOO.extend(YAHOO.widget.Chart, YAHOO.util.AttributeProvider,
 		if(this._dataTipFunction)
 		{
 			YAHOO.widget.Chart.removeProxyFunction(this._dataTipFunction);
+		}
+		
+		if(this._animStepFunction)
+		{
+			YAHOO.widget.Chart.removeProxyFunction(this._animStepFunction);
 		}
 		
 		if(this._legendLabelFunction)
@@ -440,6 +454,18 @@ YAHOO.extend(YAHOO.widget.Chart, YAHOO.util.AttributeProvider,
 		{
 			method: this._setDataTipFunction,
 			getter: this._getDataTipFunction
+		});
+		
+		/**
+		 * @attribute animStepFunction
+		 * @description The string representation of a globally-accessible function
+		 * that may be called by the SWF to notify of animation steps.
+		 * @type String
+		 */
+		this.setAttributeConfig("animStepFunction",
+		{
+			method: this._setAnimStepFunction,
+			getter: this._getAnimStepFunction
 		});
 		
 		/**
@@ -611,6 +637,15 @@ YAHOO.extend(YAHOO.widget.Chart, YAHOO.util.AttributeProvider,
 									{
 										clonedSeries.dataTipFunction = YAHOO.widget.Chart.getFunctionReference(currentSeries.dataTipFunction);
 										this._seriesFunctions.push(clonedSeries.dataTipFunction);
+									}	
+								}
+								
+								else if(prop == "animStepFunction")
+								{
+									if(currentSeries.animStepFunction !== null)
+									{
+										clonedSeries.animStepFunction = YAHOO.widget.Chart.getFunctionReference(currentSeries.animStepFunction);
+										this._seriesFunctions.push(clonedSeries.animStepFunction);
 									}	
 								}
 								
@@ -795,6 +830,26 @@ YAHOO.extend(YAHOO.widget.Chart, YAHOO.util.AttributeProvider,
 			this._dataTipFunction = value = YAHOO.widget.Chart.getFunctionReference(value);
 		}
 		this._swf.setDataTipFunction(value);
+	},
+	
+	/**
+	 * Setter for the animStepFunction attribute.
+	 *
+	 * @method _animStepTipFunction
+	 * @private
+	 */
+	_setAnimStepFunction: function(value)
+	{
+		if(this._animStepFunction)
+		{
+			YAHOO.widget.Chart.removeProxyFunction(this._animStepFunction);
+		}
+		
+		if(value)
+		{
+			this._animStepFunction = value = YAHOO.widget.Chart.getFunctionReference(value);
+		}
+		this._swf.setAnimStepFunction(value);
 	},
 	
 	/**

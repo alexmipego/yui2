@@ -111,6 +111,7 @@ body {
 		xField: "month",
 		yAxis: currencyAxis,
 		dataTipFunction: YAHOO.example.getDataTipText,
+		animStepFunction: function(s, d) { console.log('anim step called!', s, d); },
 		//only needed for flash player express install
 		expressInstall: "assets/expressinstall.swf"
 	});
