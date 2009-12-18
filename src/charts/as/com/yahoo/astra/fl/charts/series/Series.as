@@ -4,7 +4,7 @@
 	
 	import fl.core.InvalidationType;
 	import fl.core.UIComponent;
-	//import fl.transitions.easing.Strong;
+	import fl.transitions.easing.Strong;
 	
 	import flash.display.DisplayObject;
 	import flash.display.InteractiveObject;
@@ -99,7 +99,7 @@
 			fillAlpha: 1.0,
 			borderAlpha: 1.0,
 			animationEnabled: true,
-			animationEasingFunction: null,// fl.transitions.easing.Strong.easeOut,
+			animationEasingFunction: fl.transitions.easing.Strong.easeOut,
 			animationDuration: 500,
 			borderColor: null,
 			color: 0x00b8bf

@@ -34,7 +34,7 @@
             <arg line="--source-path+='${astra.srcdir}'"/>
 
             <!-- Core Flash CS3 Source Files -->
-            <arg line="--source-path+='${flashbin}/Common/Configuration/ActionScript 3.0/'"/>
+            <arg line="--source-path+='${flashbin}/Common/Configuration/ActionScript 3.0/projects/Flash/src/'"/>
             <arg line="--source-path+='${flashbin}/Common/Configuration/Component Source/ActionScript 3.0/User Interface'"/>
 
             <!-- Main Classes to Include (will also add dependencies) -->
